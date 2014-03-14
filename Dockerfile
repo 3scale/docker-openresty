@@ -33,4 +33,6 @@ RUN wget -nv http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.
  && make install \
  && rm -rf /root/ngx_openresty-$OPENRESTY_VERSION*
 
+ADD supervisor /etc/supervisor
+
 ONBUILD CMD ["supervisord", "-n"]
