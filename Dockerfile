@@ -8,6 +8,7 @@ RUN apt-get -q -y update \
  && apt-get -q -y update \
  && apt-get -q -y install redis-server cron luarocks supervisor logrotate \
                           make build-essential libpcre3-dev libssl-dev wget \
+                          iputils-arping \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 ENV OPENRESTY_VERSION 1.5.8.1
