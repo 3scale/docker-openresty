@@ -11,7 +11,7 @@ RUN apt-get -q -y update \
                           iputils-arping \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-ENV OPENRESTY_VERSION 1.5.8.1
+ENV OPENRESTY_VERSION 1.5.11.1
 
 RUN wget -nv http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.gz \
          -O /root/ngx_openresty-$OPENRESTY_VERSION.tar.gz \
