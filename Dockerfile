@@ -18,6 +18,7 @@ RUN wget -nv http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.
  && tar -xzf /root/ngx_openresty-$OPENRESTY_VERSION.tar.gz -C /root/ \
  && cd /root/ngx_openresty-$OPENRESTY_VERSION/ \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
+    --with-luajit-xcflags=-DLUAJIT_ENABLE_CHECKHOOK \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
     --http-proxy-temp-path=/var/nginx/proxy_temp \
     --http-log-path=/var/nginx/access.log \
