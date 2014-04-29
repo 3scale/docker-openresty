@@ -1,4 +1,5 @@
 FROM quay.io/3scale/base:trusty
+
 MAINTAINER Michal Cichra <michal@3scale.net> # 2014-02-24
 
 # all the apt-gets in one command & delete the cache after installing
@@ -18,6 +19,7 @@ RUN wget -nv http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.
  && tar -xzf /root/ngx_openresty-$OPENRESTY_VERSION.tar.gz -C /root/ \
  && cd /root/ngx_openresty-$OPENRESTY_VERSION/ \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
+    --with-luajit-xcflags=-DLUAJIT_ENABLE_CHECKHOOK \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
     --http-proxy-temp-path=/var/nginx/proxy_temp \
     --http-log-path=/var/nginx/access.log \
