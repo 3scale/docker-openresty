@@ -1,4 +1,4 @@
-FROM 3scale/base:precise
+FROM quay.io/3scale/base:precise
 MAINTAINER Michal Cichra <michal@3scale.net> # 2014-02-24
 
 # all the apt-gets in one command & delete the cache after installing
