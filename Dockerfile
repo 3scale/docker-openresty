@@ -11,12 +11,9 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
                           iputils-arping libexpat1-dev \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-ENV OPENRESTY_VERSION 1.5.11.1
 
-RUN wget -nv http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.gz \
-         -O /root/ngx_openresty-$OPENRESTY_VERSION.tar.gz \
- && tar -xzf /root/ngx_openresty-$OPENRESTY_VERSION.tar.gz -C /root/ \
- && cd /root/ngx_openresty-$OPENRESTY_VERSION/ \
+ADD ngx_openresty-1.5.12.1.tar.gz /root/
+RUN cd /root/ngx_openresty-1.5.12.1 \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_CHECKHOOK \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
@@ -33,7 +30,7 @@ RUN wget -nv http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.
     --without-http_scgi_module \
  && make \
  && make install \
- && rm -rf /root/ngx_openresty-$OPENRESTY_VERSION*
+ && rm -rf /root/ngx_openresty*
 
 ADD supervisor /etc/supervisor
 
