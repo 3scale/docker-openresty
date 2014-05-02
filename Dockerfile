@@ -3,9 +3,8 @@ FROM quay.io/3scale/base:trusty
 MAINTAINER Michal Cichra <michal@3scale.net> # 2014-02-24
 
 # all the apt-gets in one command & delete the cache after installing
-RUN apt-get -q -y update \
- && apt-get -q -y install software-properties-common python-software-properties \
- && apt-add-repository -y ppa:chris-lea/redis-server \
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
+ && echo 'deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' > /etc/apt/sources.list.d/redis \
  && apt-get -q -y update \
  && apt-get -q -y install redis-server cron luarocks supervisor logrotate \
                           make build-essential libpcre3-dev libssl-dev wget \
