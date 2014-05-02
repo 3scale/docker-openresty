@@ -1,4 +1,4 @@
-TAG=trusty
+TAG=$(shell git rev-parse --abbrev-ref HEAD)
 IMAGE=3scale/openresty:$(TAG)
 REPOSITORY=quay.io/$(IMAGE)
 
