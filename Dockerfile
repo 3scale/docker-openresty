@@ -1,6 +1,6 @@
 FROM quay.io/3scale/base:trusty
 
-MAINTAINER Michal Cichra <michal@3scale.net> # 2014-02-24
+MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
 
 # all the apt-gets in one command & delete the cache after installing
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
