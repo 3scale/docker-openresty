@@ -11,9 +11,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
                           iputils-arping libexpat1-dev \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-
-ADD ngx_openresty-1.5.12.1.tar.gz /root/
-RUN cd /root/ngx_openresty-1.5.12.1 \
+ADD ngx_openresty-1.7.0.1.tar.gz /root/
+RUN cd /root/ngx_openresty-1.7.0.1 \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_CHECKHOOK \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
