@@ -13,7 +13,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
 
 ADD ngx_openresty-1.7.4.1rc2.tar.gz /root/
 RUN cd /root/ngx_openresty-* \
- && wget https://gist.githubusercontent.com/mikz/4ce4307329095114b109/raw/77a2b5312a4813f6caa9e190db422883a54d1011/gistfile1.diff -O ./resty.patch \
+ && wget https://gist.githubusercontent.com/mikz/4ce4307329095114b109/raw/97c68b3f6a4f0a6f87fe8f1b7005f19484378fcc/gistfile1.diff -O ./resty.patch \
  && cat resty.patch | patch -p0 \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT \
