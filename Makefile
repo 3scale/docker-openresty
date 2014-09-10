@@ -3,7 +3,7 @@ IMAGE=3scale/openresty:$(TAG)
 REPOSITORY=quay.io/$(IMAGE)
 
 build:
-	docker build -t $(IMAGE) .
+	docker build -t $(REPOSITORY) .
 
 tag:
 	docker tag $(IMAGE) $(REPOSITORY)
