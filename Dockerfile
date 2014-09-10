@@ -11,10 +11,10 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
                           iputils-arping libexpat1-dev \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-ADD ngx_openresty-1.7.2.1.tar.gz /root/
-RUN cd /root/ngx_openresty-1.7.2.1 \
+ADD ngx_openresty-1.7.4.1rc2.tar.gz /root/
+RUN cd /root/ngx_openresty-1.7.4.1rc2 \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
-    --with-luajit-xcflags=-DLUAJIT_ENABLE_CHECKHOOK \
+    --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
     --http-proxy-temp-path=/var/nginx/proxy_temp \
     --http-log-path=/var/nginx/access.log \
@@ -27,6 +27,9 @@ RUN cd /root/ngx_openresty-1.7.2.1 \
     --without-http_fastcgi_module \
     --without-http_uwsgi_module \
     --without-http_scgi_module \
+    --with-md5-asm \
+    --with-sha1-asm \
+    --with-file-aio \
  && make \
  && make install \
  && rm -rf /root/ngx_openresty*
