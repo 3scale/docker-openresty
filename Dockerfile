@@ -6,13 +6,13 @@ MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
  && echo 'deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' > /etc/apt/sources.list.d/redis.list \
  && apt-get -q -y update \
- && apt-get -q -y install redis-server cron luarocks supervisor logrotate \
+ && apt-get -q -y install redis-server cron supervisor logrotate \
                           make build-essential libpcre3-dev libssl-dev wget \
                           iputils-arping libexpat1-dev \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 ADD ngx_openresty-1.7.4.1rc2.tar.gz /root/
-RUN cd /root/ngx_openresty-1.7.4.1rc2 \
+RUN cd /root/ngx_openresty-* \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
@@ -33,6 +33,17 @@ RUN cd /root/ngx_openresty-1.7.4.1rc2 \
  && make \
  && make install \
  && rm -rf /root/ngx_openresty*
+
+RUN ln -sf /opt/openresty/luajit/bin/luajit-2.1.0-alpha /opt/openresty/luajit/bin/lua \
+ && ln -sf /opt/openresty/luajit/bin/lua /usr/local/bin/lua
+
+RUN wget -qO- http://luarocks.org/releases/luarocks-2.2.0.tar.gz | tar xvz -C /tmp/ \
+ && cd /tmp/luarocks-* \
+ && ./configure --with-lua=/opt/openresty/luajit \
+    --with-lua-include=/opt/openresty/luajit/include/luajit-2.1 \
+    --with-lua-lib=/opt/openresty/lualib \
+ && make && make install \
+ && rm -rf /tmp/luarocks-*
 
 ADD supervisor /etc/supervisor
 
