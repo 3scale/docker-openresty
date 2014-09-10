@@ -8,7 +8,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
  && apt-get -q -y update \
  && apt-get -q -y install redis-server cron supervisor logrotate \
                           make build-essential libpcre3-dev libssl-dev wget \
-                          iputils-arping libexpat1-dev \
+                          iputils-arping libexpat1-dev unzip \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 ADD ngx_openresty-1.7.4.1rc2.tar.gz /root/
