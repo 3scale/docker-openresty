@@ -5,5 +5,9 @@ REPOSITORY=quay.io/$(IMAGE)
 build:
 	docker build -t $(REPOSITORY) .
 
-tag:
-	docker tag $(IMAGE) $(REPOSITORY)
+test:
+	docker run $(REPOSITORY) openresty -V
+
+
+bash:
+	docker run -t -i $(REPOSITORY) bash

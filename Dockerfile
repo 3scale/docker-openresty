@@ -8,13 +8,12 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
  && apt-get -q -y update \
  && apt-get -q -y install redis-server cron supervisor logrotate \
                           make build-essential libpcre3-dev libssl-dev wget \
-                          iputils-arping libexpat1-dev unzip \
+                          iputils-arping libexpat1-dev unzip curl \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 ADD ngx_openresty-1.7.4.1rc2.tar.gz /root/
 RUN cd /root/ngx_openresty-* \
- && wget https://gist.githubusercontent.com/mikz/4ce4307329095114b109/raw/97c68b3f6a4f0a6f87fe8f1b7005f19484378fcc/gistfile1.diff -O ./resty.patch \
- && cat resty.patch | patch -p0 \
+ && curl https://gist.githubusercontent.com/mikz/4dae10a0ef94de7c8139/raw/33d6d5f9baf68fc5a0748b072b4d94951e463eae/system-ssl.patch | patch -p0 \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
@@ -34,7 +33,10 @@ RUN cd /root/ngx_openresty-* \
     --with-file-aio \
  && make \
  && make install \
- && rm -rf /root/ngx_openresty*
+ && rm -rf /root/ngx_openresty* \
+ && ln -sf /opt/openresty/nginx/sbin/nginx /usr/local/bin/nginx \
+ && ln -sf /usr/local/bin/nginx /usr/local/bin/openresty \
+ && ln -sf /opt/openresty/bin/resty /usr/local/bin/resty
 
 RUN ln -sf /opt/openresty/luajit/bin/luajit-2.1.0-alpha /opt/openresty/luajit/bin/lua \
  && ln -sf /opt/openresty/luajit/bin/lua /usr/local/bin/lua
