@@ -20,9 +20,12 @@ Docker Image with Openresty, redis and luarocks
 Depends on your application, but something like following should work:
 
     [program:openresty]
-    command=/opt/openresty/nginx/sbin/nginx -p /var/www/ -c config/nginx.conf
+    command=/opt/openresty/nginx/sbin/nginx -p /var/www/ -c config/nginx.conf  -g 'daemon off;'
     autorestart=true
 
+
+### Nginx config
+Supervisor expects the process not to daemonize. So make sure your nginx config has 'daemon off;'.
 
 ## Cron
 Cron is available and running by supervisor, so you can freely use logrotate and other cron goodies.
