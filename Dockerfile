@@ -11,7 +11,8 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
                           iputils-arping libexpat1-dev unzip curl \
  && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
-ADD ngx_openresty-1.7.4.1.tar.gz /root/
+ENV OPENRESTY_VERSION 1.7.4.1
+ADD ngx_openresty-${OPENRESTY_VERSION}.tar.gz /root/
 RUN cd /root/ngx_openresty-* \
  && curl https://gist.githubusercontent.com/mikz/4dae10a0ef94de7c8139/raw/33d6d5f9baf68fc5a0748b072b4d94951e463eae/system-ssl.patch | patch -p0 \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
