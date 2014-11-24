@@ -5,11 +5,9 @@ MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
 # all the apt-gets in one command & delete the cache after installing
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
  && echo 'deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' > /etc/apt/sources.list.d/redis.list \
- && apt-get -q -y update \
- && apt-get -q -y install redis-server cron supervisor logrotate \
-                          make build-essential libpcre3-dev libssl-dev wget \
-                          iputils-arping libexpat1-dev unzip curl \
- && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
+ && apt-install redis-server=2:2.8.17-1chl1~trusty1 cron supervisor logrotate \
+                make build-essential libpcre3-dev libssl-dev wget \
+                iputils-arping libexpat1-dev unzip curl
 
 ENV OPENRESTY_VERSION 1.7.4.1
 ADD ngx_openresty-${OPENRESTY_VERSION}.tar.gz /root/
@@ -52,5 +50,6 @@ RUN wget -qO- http://luarocks.org/releases/luarocks-2.2.0.tar.gz | tar xvz -C /t
 
 #ADD redis.conf /etc/redis/
 ADD supervisor /etc/supervisor
+ADD redis.conf /etc/redis/
 
 ONBUILD CMD ["supervisord", "-n"]
