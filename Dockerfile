@@ -50,6 +50,7 @@ RUN wget -qO- http://luarocks.org/releases/luarocks-2.2.0.tar.gz | tar xvz -C /t
  && make && make install \
  && rm -rf /tmp/luarocks-*
 
+#ADD redis.conf /etc/redis/
 ADD supervisor /etc/supervisor
 
 ONBUILD CMD ["supervisord", "-n"]
