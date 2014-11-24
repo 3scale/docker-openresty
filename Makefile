@@ -7,6 +7,7 @@ build:
 
 test:
 	docker run $(REPOSITORY) openresty -V
+	docker run $(REPOSITORY) redis-server /etc/redis/redis.conf --daemonize yes
 
 
 bash:
