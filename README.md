@@ -14,7 +14,7 @@ Docker Image with Openresty, redis and luarocks
     # Add your app
     ADD . /var/www
     
-    CMD ["supervisor"]
+    CMD ["supervisord"]
 
 ### Supervisor config
 Depends on your application, but something like following should work:
