@@ -1,0 +1,42 @@
+diff --git a/bundle/nginx-1.7.10/src/event/ngx_event_openssl.c b/bundle/nginx-1.7.10/src/event/ngx_event_openssl.c
+index d5d4a1a..cc3a366 100644
+--- a/bundle/nginx-1.7.10/src/event/ngx_event_openssl.c
++++ b/bundle/nginx-1.7.10/src/event/ngx_event_openssl.c
+@@ -567,6 +567,7 @@ ngx_ssl_trusted_certificate(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_str_t *cert,
+     SSL_CTX_set_verify_depth(ssl->ctx, depth);
+ 
+     if (cert->len == 0) {
++        SSL_CTX_set_default_verify_paths(ssl->ctx);
+         return NGX_OK;
+     }
+ 
+diff --git a/bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c b/bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c
+index 6f43b23..490c09a 100644
+--- a/bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c
++++ b/bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c
+@@ -805,7 +805,7 @@ ngx_http_lua_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
+                              "DEFAULT");
+ 
+     ngx_conf_merge_uint_value(conf->ssl_verify_depth,
+-                              prev->ssl_verify_depth, 1);
++                              prev->ssl_verify_depth, -1);
+     ngx_conf_merge_str_value(conf->ssl_trusted_certificate,
+                              prev->ssl_trusted_certificate, "");
+     ngx_conf_merge_str_value(conf->ssl_crl, prev->ssl_crl, "");
+@@ -888,8 +888,6 @@ ngx_http_lua_set_ssl(ngx_conf_t *cf, ngx_http_lua_loc_conf_t *llcf)
+         return NGX_ERROR;
+     }
+ 
+-    if (llcf->ssl_trusted_certificate.len) {
+-
+ #if defined(nginx_version) && nginx_version >= 1003007
+ 
+         if (ngx_ssl_trusted_certificate(cf, llcf->ssl,
+@@ -908,7 +906,6 @@ ngx_http_lua_set_ssl(ngx_conf_t *cf, ngx_http_lua_loc_conf_t *llcf)
+         return NGX_ERROR;
+ 
+ #endif
+-    }
+ 
+     dd("ssl crl: %.*s", (int) llcf->ssl_crl.len, llcf->ssl_crl.data);
+ 
