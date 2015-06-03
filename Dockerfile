@@ -3,11 +3,12 @@ FROM quay.io/3scale/base:trusty
 MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
 
 ENV OPENRESTY_VERSION 1.7.10.1
+ENV REDIS_VERSION 3:3.0.1-1chl1~trusty1
 
 # all the apt-gets in one command & delete the cache after installing
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
  && echo 'deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' > /etc/apt/sources.list.d/redis.list \
- && apt-install redis-server=2:2.8.17-1chl1~trusty1 cron supervisor logrotate \
+ && apt-install redis-server=${REDIS_VERSION} cron supervisor logrotate \
                 make build-essential libpcre3-dev libssl-dev wget \
                 iputils-arping libexpat1-dev unzip curl \
  && wget -qO- http://openresty.org/download/ngx_openresty-${OPENRESTY_VERSION}.tar.gz | tar xvz -C /root/ \
