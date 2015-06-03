@@ -35,6 +35,9 @@ Cron is available and running by supervisor, so you can freely use logrotate and
 * Fetch the latest master
 * Fork a new branch from master
 * Make your changes and commit them
+* Notice that the system-ssl.patch file depends on the version of openresty that you are using. If you
+  update openresty, you might need to change that too.
 * Push the branch to github
 * A webhook will trigger a build of that new branch in quay.io .
 * Visit quay.io to see if it has built correctly.
+
