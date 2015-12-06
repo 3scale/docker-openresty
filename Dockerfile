@@ -2,17 +2,20 @@ FROM quay.io/3scale/base:trusty
 
 MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
 
-ENV OPENRESTY_VERSION 1.7.4.1
+ENV OPENRESTY_VERSION 1.7.10.1
+ENV REDIS_VERSION 3:3.0.1-1chl1~trusty1
+
+COPY system-ssl.patch /tmp/
 
 # all the apt-gets in one command & delete the cache after installing
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
  && echo 'deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' > /etc/apt/sources.list.d/redis.list \
- && apt-install redis-server=2:2.8.17-1chl1~trusty1 cron supervisor logrotate \
+ && apt-install redis-server=${REDIS_VERSION} cron supervisor logrotate \
                 make build-essential libpcre3-dev libssl-dev wget \
                 iputils-arping libexpat1-dev unzip curl \
  && wget -qO- http://openresty.org/download/ngx_openresty-${OPENRESTY_VERSION}.tar.gz | tar xvz -C /root/ \
  && cd /root/ngx_openresty-${OPENRESTY_VERSION} \
- && curl https://gist.githubusercontent.com/mikz/4dae10a0ef94de7c8139/raw/33d6d5f9baf68fc5a0748b072b4d94951e463eae/system-ssl.patch | patch -p0 \
+ && patch -p0 < /tmp/system-ssl.patch
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
