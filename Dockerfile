@@ -2,9 +2,7 @@ FROM quay.io/3scale/base:trusty
 
 MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
 
-ENV OPENRESTY_VERSION 1.7.10.1
-ENV REDIS_VERSION 3:3.0.1-1chl1~trusty1
-
+ENV OPENRESTY_VERSION=1.7.10.1 REDIS_VERSION=3:3.0.5-1chl1~trusty1
 COPY system-ssl.patch /tmp/
 
 # all the apt-gets in one command & delete the cache after installing
