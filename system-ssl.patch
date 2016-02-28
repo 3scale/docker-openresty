@@ -1,7 +1,7 @@
-diff --git bundle/nginx-1.7.10/src/event/ngx_event_openssl.c bundle/nginx-1.7.10/src/event/ngx_event_openssl.c
+diff --git bundle/nginx-1.9.7/src/event/ngx_event_openssl.c bundle/nginx-1.9.7/src/event/ngx_event_openssl.c
 index d5d4a1a..cc3a366 100644
---- bundle/nginx-1.7.10/src/event/ngx_event_openssl.c
-+++ bundle/nginx-1.7.10/src/event/ngx_event_openssl.c
+--- bundle/nginx-1.9.7/src/event/ngx_event_openssl.c
++++ bundle/nginx-1.9.7/src/event/ngx_event_openssl.c
 @@ -567,6 +567,7 @@ ngx_ssl_trusted_certificate(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_str_t *cert,
      SSL_CTX_set_verify_depth(ssl->ctx, depth);
 
@@ -10,10 +10,10 @@ index d5d4a1a..cc3a366 100644
          return NGX_OK;
      }
 
-diff --git bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c
+diff --git bundle/ngx_lua-0.10.0/src/ngx_http_lua_module.c bundle/ngx_lua-0.10.0/src/ngx_http_lua_module.c
 index 6f43b23..490c09a 100644
---- bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c
-+++ bundle/ngx_lua-0.9.15/src/ngx_http_lua_module.c
+--- bundle/ngx_lua-0.10.0/src/ngx_http_lua_module.c
++++ bundle/ngx_lua-0.10.0/src/ngx_http_lua_module.c
 @@ -805,7 +805,7 @@ ngx_http_lua_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child)
                               "DEFAULT");
 

@@ -1,21 +1,18 @@
 FROM quay.io/3scale/base:trusty
 
-MAINTAINER Michal Cichra <michal@3scale.net> # 2014-05-21
+MAINTAINER Michal Cichra <michal@3scale.net>
 
-ENV OPENRESTY_VERSION 1.7.10.1
-ENV REDIS_VERSION 3:3.0.1-1chl1~trusty1
+ENV OPENRESTY_VERSION 1.9.7.3
 
 COPY system-ssl.patch /tmp/
 
 # all the apt-gets in one command & delete the cache after installing
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE520DDFAF0A905689B9316A7BC7917B12 \
  && echo 'deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' > /etc/apt/sources.list.d/redis.list \
- && apt-install redis-server=${REDIS_VERSION} cron supervisor logrotate \
-                make build-essential libpcre3-dev libssl-dev wget \
-                iputils-arping libexpat1-dev unzip curl \
- && wget -qO- http://openresty.org/download/ngx_openresty-${OPENRESTY_VERSION}.tar.gz | tar xvz -C /root/ \
- && cd /root/ngx_openresty-${OPENRESTY_VERSION} \
- && patch -p0 < /tmp/system-ssl.patch
+ && apt-install redis-server cron supervisor logrotate make build-essential libpcre3-dev libssl-dev wget libexpat1-dev unzip \
+ && wget -qO- https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar xvz -C /tmp/ \
+ && cd /tmp/openresty-* \
+ && patch -p0 < /tmp/system-ssl.patch \
  && ./configure --prefix=/opt/openresty --with-http_gunzip_module --with-luajit \
     --with-luajit-xcflags=-DLUAJIT_ENABLE_LUA52COMPAT \
     --http-client-body-temp-path=/var/nginx/client_body_temp \
@@ -35,19 +32,20 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 136221EE52
     --with-file-aio \
  && make \
  && make install \
- && rm -rf /root/ngx_openresty* \
+ && rm -rf /tmp/openresty* \
  && ln -sf /opt/openresty/nginx/sbin/nginx /usr/local/bin/nginx \
  && ln -sf /usr/local/bin/nginx /usr/local/bin/openresty \
  && ln -sf /opt/openresty/bin/resty /usr/local/bin/resty \
- && ln -sf /opt/openresty/luajit/bin/luajit-2.1.0-alpha /opt/openresty/luajit/bin/lua \
+ && ln -sf /opt/openresty/luajit/bin/luajit-* /opt/openresty/luajit/bin/lua \
  && ln -sf /opt/openresty/luajit/bin/lua /usr/local/bin/lua \
- && wget -qO- http://luarocks.org/releases/luarocks-2.2.0.tar.gz | tar xvz -C /tmp/ \
+ && wget -qO- http://keplerproject.github.io/luarocks/releases/luarocks-2.3.0.tar.gz | tar xvz -C /tmp/ \
  && cd /tmp/luarocks-* \
  && ./configure --with-lua=/opt/openresty/luajit \
     --with-lua-include=/opt/openresty/luajit/include/luajit-2.1 \
     --with-lua-lib=/opt/openresty/lualib \
  && make && make install \
- && rm -rf /tmp/luarocks-*
+ && rm -rf /tmp/luarocks-* \
+ && cd && apt-get remove make -y
 
 COPY etc /etc/
 
